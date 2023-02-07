@@ -2,9 +2,18 @@
 
 .sort {
   position: relative;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+
   &__label {
     display: flex;
     align-items: center;
+
 
     svg {
       margin-right: 8px;
@@ -34,6 +43,7 @@
 
     ul {
       overflow: hidden;
+
       li {
         padding: 12px 20px;
         cursor: pointer;

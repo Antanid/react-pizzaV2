@@ -3,7 +3,7 @@
     <ul>
           {types.map((typeIndex, index) => (
             <li
-              key={index}
+              key={typeIndex}
               className={activeType === index ? "active" : ""}
               onClick={() => onTypeActive(index)}
             >

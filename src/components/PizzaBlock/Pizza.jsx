@@ -1,15 +1,14 @@
 import { PizzaBlock } from "./PizzaBlock";
-import pizzaJson from "../../assets/pizza.json";
+import { PizzaHeader } from "./PizzaHeader";
+import Skeleton from "./Skeleton";
 
-export default function Pizza() {
+export default function Pizza({ pizza, skeletonLoader }) {
+  const pizzasItem = pizza.map((item) => <PizzaBlock key={item.id} {...item} />);
+  const skeletons = [...new Array(9)].map((_, index) => <Skeleton key={index} />);
   return (
     <>
-      {pizzaJson.map((item) => (
-        <PizzaBlock
-          key={item.id}
-          {...item}
-        />
-      ))}
+      <PizzaHeader title="Все пиццы" />
+      <div className="content__items">{skeletonLoader ? skeletons : pizzasItem}</div>
     </>
   );
 }

@@ -1,13 +1,13 @@
 import React from "react";
 
-const CategorInfo = ({ liText, indexLi, onClickLi }) => {
+const CategorInfo = ({ liText, categoryIndex, onClickCategory }) => {
   return (
     <ul>
       {liText.map((item, index) => (
         <li
-          key={index}
-          onClick={() => onClickLi(index)}
-          className={index === indexLi ? "active" : ""}
+          key={item}
+          onClick={() => onClickCategory(index)}
+          className={index === categoryIndex ? "active" : ""}
         >
           {item}
         </li>

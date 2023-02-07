@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import CategorInfo from "./CategorInfo";
 
-export default function Categories() {
-  const [liText] = useState(["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]);
-  const [indexLi, setIndexLi] = useState(0);
+export default function Categories({ categoryIndex, setCategoryIndex }) {
+  const [liText] = useState(["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]);
 
-  const onClickLi = (index) => {
-    setIndexLi(index);
+  const onClickCategory = (index) => {
+    setCategoryIndex(index);
   };
 
   return (
     <div className="categories">
       <CategorInfo
-       onClickLi={(index) => onClickLi(index)} 
-       indexLi={indexLi} 
-       liText={liText} 
-       />
+        onClickCategory={(index) => onClickCategory(index)}
+        categoryIndex={categoryIndex}
+        liText={liText}
+      />
     </div>
   );
 }
