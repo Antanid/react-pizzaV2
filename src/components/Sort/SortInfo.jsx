@@ -1,6 +1,6 @@
 import React from "react";
 
-const SortInfo = ({ open, openPopUp, sortList, onSelected, sortIndex, selectedList }) => {
+const SortInfo = ({ open, openPopUp, sortList, sortIndex, selectedList, onSortChange }) => {
   return (
     <div className="sort">
       <div className="sort__label" onClick={openPopUp}>
@@ -25,7 +25,7 @@ const SortInfo = ({ open, openPopUp, sortList, onSelected, sortIndex, selectedLi
             {sortList.map((list, index) => (
               <li
                 key={list.name}
-                onClick={() => onSelected(index, list.sort)}
+                onClick={() => onSortChange(index, list)}
                 className={sortIndex === index ? "active" : ""}
               >
                 {list.name}

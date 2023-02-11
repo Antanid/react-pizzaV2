@@ -1,20 +1,32 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import logoImg from "../../assets/img/pizza-logo.svg";
 import Search from "./Search";
 import AppContext from "../../context";
+import debounce from "lodash.debounce";
 
 export default function Header() {
-  const { searchValue, setSearchValue } = useContext(AppContext);
+  const { setSearchValue } = useContext(AppContext);
+  const [inputLocal, setInputLocal] = useState("");
+  const inputRef = useRef();
+
+  const onBounceInput = useCallback(
+    debounce((str) => {
+      setSearchValue(str);
+    }, 500),
+    []
+  );
 
   const onSearchChange = (e) => {
-    setSearchValue(e.target.value);
+    setInputLocal(e.target.value);
     e.preventDefault();
+    onBounceInput(e.target.value)
   };
 
   const onClearSearch = () => {
-    setSearchValue("");
+    setInputLocal("");
+    inputRef.current.focus();
   };
   return (
     <div className="header">
@@ -29,9 +41,10 @@ export default function Header() {
           </div>
         </Link>
         <Search
+          inputRef={inputRef}
           onClearSearch={onClearSearch}
           onSearchChange={onSearchChange}
-          searchValue={searchValue}
+          inputLocal={inputLocal}
         />
         <Link to="/card">
           <div className="header__cart">
