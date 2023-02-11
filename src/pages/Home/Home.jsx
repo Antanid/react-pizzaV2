@@ -16,21 +16,19 @@ const Home = () => {
 
   const { categoryIndex, sort, paginationNumber } = useSelector((state) => state.filterSlice);
   const dispatch = useDispatch();
-
+console.log(sort)
   useEffect(() => {
     async function fetchData() {
       const IndexCategory = categoryIndex === 0 ? "" : `category=${categoryIndex}`;
       const sortNameRep = sort.sortName.replace("-", "");
       const sortType = sort.sortName.includes("-") ? "desc" : "asc";
       const search = searchValue ? `search=${searchValue}` : "";
-      console.log(paginationNumber, categoryIndex)
+      const pagePagination = categoryIndex !== 0 || searchValue ? 1 : paginationNumber;
       try {
         setSkeletonLoader(true);
         const pizzaArr = await axios.get(
-          `https://63dc22b6b8e69785e49282a5.mockapi.io/pizza?page=${paginationNumber}
-          &limit=4&${IndexCategory}&sortBy=${sortNameRep}
-          &order=${sortType}
-          &${search}`
+          `https://63dc22b6b8e69785e49282a5.mockapi.io/pizza?page=${pagePagination}
+          &limit=4&${IndexCategory}&sortBy=${sortNameRep}&order=${sortType}&${search}`
         );
         setPizza(pizzaArr.data);
         setSkeletonLoader(false);
@@ -40,11 +38,10 @@ const Home = () => {
       }
     }
     fetchData();
-  }, [categoryIndex, sort.sortName, searchValue, paginationNumber]);
+  }, [categoryIndex, sort, searchValue, paginationNumber]);
 
   const onChangePage = (number) => {
    dispatch(setPaginationPage(number));
-    console.log(number)
   };
 
   return (
