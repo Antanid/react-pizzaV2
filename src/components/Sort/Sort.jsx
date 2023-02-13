@@ -18,7 +18,6 @@ export default function Sort() {
 
   const onSortChange = (index, name) => {
     dispatch(setSortIndex(index), dispatch(setSortName(name.sort)));
-    console.log(name)
   };
 
   useEffect(() => {

@@ -8,7 +8,6 @@ const initialState = {
     sortIndex: 0
   } 
 };
-
 const filterSlice = createSlice({
   name: "filters",
   initialState,
@@ -24,9 +23,16 @@ const filterSlice = createSlice({
     },
     setPaginationPage: (state, number) => {
       state.paginationNumber = number.payload
+  },
+  setUrlFilters: (state, action) => {
+    state.paginationNumber = action.payload.paginationNumber;
+    state.categoryIndex = action.payload.categoryIndex;
+    state.sort.sortIndex = action.payload.sortIndex;
+    state.sort.sortName = action.payload.sortName;
   }
   },
 });
+
 
 export const { setCategoryIndex, setSortName, setSortIndex, setPaginationPage, setUrlFilters} = filterSlice.actions;
 
