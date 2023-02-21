@@ -1,35 +1,25 @@
 import { Route, Routes } from "react-router-dom";
 
-import Header from "./components/Header/Header";
 import Cart from "./pages/Cart/Cart";
 import Home from "./pages/Home/Home";
 import NotFound from "./components/NotFoundBlock/NotFoundBlock";
 
 import "./scss/app.scss";
 import AppContext from "./context";
-import { useState } from "react";
+import FullPizza from "./pages/FullPizza/FullPizza";
+import MainLayouts from "./layouts/MainLayouts";
 
 function App() {
-  const [searchValue, setSearchValue] = useState('');
   return (
-    <AppContext.Provider
-      value={{
-        searchValue,
-        setSearchValue,
-      }}
-    >
-      <div className="App">
-        <div className="wrapper">
-          <Header />
-          <div className="content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/card" element={<Cart />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
-        </div>
-      </div>
+    <AppContext.Provider>
+      <Routes>
+        <Route path="" element={<MainLayouts />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/pizza/:id" element={<FullPizza />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
     </AppContext.Provider>
   );
 }

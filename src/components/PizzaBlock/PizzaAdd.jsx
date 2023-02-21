@@ -1,10 +1,10 @@
 import React from "react";
 
-const PizzaAdd = ({ price }) => {
+const PizzaAdd = ({ price, onClickAdd, pizzaCount }) => {
   return (
     <div className="pizza-block__bottom">
       <div className="pizza-block__price">от {price}грн</div>
-      <button className="button button--outline button--add">
+      <button onClick={onClickAdd} className="button button--outline button--add">
         <svg
           width="12"
           height="12"
@@ -18,7 +18,7 @@ const PizzaAdd = ({ price }) => {
           />
         </svg>
         <span>Добавить</span>
-        <i>0</i>
+        {pizzaCount && <i>{pizzaCount.count}</i>}
       </button>
     </div>
   );

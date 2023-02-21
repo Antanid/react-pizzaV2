@@ -1,8 +1,8 @@
 import React from "react";
 
-const SortInfo = ({ open, openPopUp, sortList, sortIndex, selectedList, onSortChange }) => {
+const SortInfo = ({ open, openPopUp, sortList, sortIndex, selectedList, onSortChange, sortRef}) => {
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label" onClick={openPopUp}>
         <svg
           width="10"

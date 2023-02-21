@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
 import qs from "qs";
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -9,19 +8,19 @@ import Categories from "../../components/Categories/Categories";
 import Pagination from "../../components/Pagination/Pagination";
 import Pizza from "../../components/PizzaBlock/Pizza";
 import Sort from "../../components/Sort/Sort";
-import AppContext from "../../context";
-import { setPaginationPage, setUrlFilters } from "../../redux/slices/filterSlice";
+import { selectFilter, setPaginationPage, setUrlFilters } from "../../redux/slices/filterSlice";
+import { fetchPizzas } from "../../redux/slices/pizzaSlice";
+import NotFoundBlock from "../NotFound/NotFound";
 
 const Home = () => {
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const { searchValue } = useContext(AppContext);
-  const [pizza, setPizza] = useState([]);
-  const [skeletonLoader, setSkeletonLoader] = useState(false);
+ const {searchValue} = useSelector(selectFilter)
 
-  const { categoryIndex, sort, paginationNumber } = useSelector((state) => state.filterSlice);
+  const { categoryIndex, sort, paginationNumber } = useSelector(selectFilter);
+  const { items, status } = useSelector((state) => state.pizzaSlice);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,28 +45,16 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    async function fetchData() {
-      const IndexCategory = categoryIndex > 0 ? `category=${categoryIndex}` : "";
-      const sortNameRep = sort.sortName.replace("-", "");
-      const sortType = sort.sortName.includes("-") ? "desc" : "asc";
-      const search = searchValue ? `search=${searchValue}` : "";
-      const pagePagination = categoryIndex !== 0 || searchValue ? 1 : paginationNumber;
-      try {
-        setSkeletonLoader(true);
-        const pizzaArr = await axios.get(
-          `https:63dc22b6b8e69785e49282a5.mockapi.io/pizza?page=${pagePagination}
-               &limit=4&${IndexCategory}&sortBy=${sortNameRep}&order=${sortType}&${search}`
-        );
-        setPizza(pizzaArr.data);
-        setSkeletonLoader(false);
-        window.scrollTo(0, 0);
-      } catch (error) {
-        alert("Пиццы не загрузилась");
-      }
-    }
+    const IndexCategory = categoryIndex > 0 ? `category=${categoryIndex}` : "";
+    const sortNameRep = sort.sortName.replace("-", "");
+    const sortType = sort.sortName.includes("-") ? "desc" : "asc";
+    const search = searchValue ? `search=${searchValue}` : "";
+    const pagePagination = categoryIndex !== 0 || searchValue ? 1 : paginationNumber;
+
     if (!isSearch.current) {
-      fetchData();
+      dispatch(fetchPizzas({ IndexCategory, sortNameRep, sortType, search, pagePagination }));
     }
+    window.scrollTo(0, 0);
     isSearch.current = false;
   }, [categoryIndex, sort, searchValue, paginationNumber]);
 
@@ -81,12 +68,22 @@ const Home = () => {
         <Categories />
         <Sort />
       </div>
-      <Pizza pizza={pizza} skeletonLoader={skeletonLoader} />
-      <Pagination
-        paginationNumber={paginationNumber}
-        categoryIndex={categoryIndex}
-        onChangePage={(number) => onChangePage(number)}
-      />
+      {status === "error" ? (
+        <NotFoundBlock
+        h1Text='Пиццы временно пропали'
+        pText1='Вероятней всего скоро они появится.'
+        buttonText='Вернуться назад'
+         />
+      ) : (
+        <>
+          <Pizza pizza={items} status={status} />
+          <Pagination
+            paginationNumber={paginationNumber}
+            categoryIndex={categoryIndex}
+            onChangePage={(number) => onChangePage(number)}
+          />
+        </>
+      )}
     </div>
   );
 };
