@@ -7,17 +7,27 @@ import PizzaAdd from "./PizzaAdd";
 import SizePizza from "./SizePizza";
 import TypePizza from "./TypePizza";
 
-export const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
+type PizzaBlockType = {
+  id: string;
+  imageUrl: string;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+};
+
+const PizzaBlock: React.FC<PizzaBlockType> = 
+({ id, imageUrl, title, price, sizes, types }) => {
   const dispath = useDispatch();
   const pizzaCount = useSelector((state) => selectCartItemById(state, id));
   const [typesName] = useState(["Тонкое", "Традиционное"]);
   const [activeType, setActiveType] = useState(0);
   const [activeSyze, setActiveSyze] = useState(0);
 
-  const onTypeActive = (index) => {
+  const onTypeActive = (index: number) => {
     setActiveType(index);
   };
-  const onSyzeActive = (index) => {
+  const onSyzeActive = (index: number) => {
     setActiveSyze(index);
   };
 
@@ -43,14 +53,14 @@ export const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
         <div className="pizza-block__selector">
           <TypePizza
             types={types}
-            onTypeActive={(index) => onTypeActive(index)}
+            onTypeActive={(index : number) => onTypeActive(index)}
             activeType={activeType}
             typesName={typesName}
           />
           <SizePizza
             sizes={sizes}
             activeSyze={activeSyze}
-            onSyzeActive={(index) => onSyzeActive(index)}
+            onSyzeActive={(index : number) => onSyzeActive(index)}
           />
         </div>
         <PizzaAdd pizzaCount={pizzaCount} price={price} onClickAdd={onClickAdd} />
@@ -58,3 +68,5 @@ export const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
     </div>
   );
 };
+
+export default PizzaBlock;

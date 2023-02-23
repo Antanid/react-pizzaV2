@@ -1,11 +1,11 @@
 import React from "react";
 import style from "./sass/style.module.scss";
 
-const NotFoundBlock = () => {
+const NotFoundBlock: React.FC = () => {
   return (
     <div className={style.root}>
       <h1>
-        <icon>😕</icon>
+        <span>😕</span>
         <br />
         Ничего не найдено
       </h1>

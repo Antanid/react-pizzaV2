@@ -1,6 +1,12 @@
 import React from "react";
 
-const SizePizza = ({ activeSyze, onSyzeActive, sizes }) => {
+type SizePizzaType = {
+  activeSyze: number;
+  onSyzeActive: any;
+  sizes: number[]
+}
+
+const SizePizza: React.FC <SizePizzaType> = ({ activeSyze, onSyzeActive, sizes }) => {
   return (
     <ul>
       {sizes.map((size, index) => (

@@ -1,4 +1,12 @@
- const TypePizza = ({types, activeType, onTypeActive, typesName}) => {
+ 
+ type PizzaType = {
+  types: number[];
+  activeType: number;
+  onTypeActive: any;
+  typesName: string[]
+ };
+ 
+ const TypePizza: React.FC <PizzaType> = ({types, activeType, onTypeActive, typesName}) => {
   return (
     <ul>
           {types.map((typeIndex, index) => (

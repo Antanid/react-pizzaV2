@@ -9,27 +9,27 @@ import debounce from "lodash.debounce";
 import { selectCart } from "../../redux/slices/cartSlice";
 import { setSearchValue } from "../../redux/slices/filterSlice";
 
-export default function Header() {
+const Header: React.FC = () => {
   const dispatch = useDispatch();
 
   const [inputLocal, setInputLocal] = useState("");
 
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { items, totalPrice } = useSelector(selectCart);
 
   const location = useLocation();
 
-  const totalCount = items.reduce((sum, obj) => sum + obj.count, 0);
+  const totalCount = items.reduce((sum: number, obj: any) => sum + obj.count, 0);
 
   const onBounceInput = useCallback(
-    debounce((str) => {
+    debounce((str: string) => {
       dispatch(setSearchValue(str));
     }, 500),
     []
   );
 
-  const onSearchChange = (e) => {
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputLocal(e.target.value);
     e.preventDefault();
     onBounceInput(e.target.value);
@@ -38,7 +38,7 @@ export default function Header() {
   const onClearSearch = () => {
     setInputLocal("");
     dispatch(setSearchValue(""));
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   return (
@@ -102,4 +102,5 @@ export default function Header() {
       </div>
     </div>
   );
-}
+};
+export default Header;

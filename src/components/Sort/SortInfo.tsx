@@ -1,6 +1,17 @@
 import React from "react";
 
-const SortInfo = ({ open, openPopUp, sortList, sortIndex, selectedList, onSortChange, sortRef}) => {
+type SortInfoRType= {
+  open: boolean;
+  openPopUp: any;
+  sortList: {name: string, sort: string}[];
+  sortIndex: number;
+  selectedList: string;
+  onSortChange: any;
+  sortRef: any;
+};
+
+const SortInfo: React.FC <SortInfoRType> = 
+({ open, openPopUp, sortList, sortIndex, selectedList, onSortChange, sortRef}) => {
   return (
     <div ref={sortRef} className="sort">
       <div className="sort__label" onClick={openPopUp}>
@@ -25,7 +36,7 @@ const SortInfo = ({ open, openPopUp, sortList, sortIndex, selectedList, onSortCh
             {sortList.map((list, index) => (
               <li
                 key={list.name}
-                onClick={() => onSortChange(index, list)}
+                onClick={() => onSortChange(index, list.sort)}
                 className={sortIndex === index ? "active" : ""}
               >
                 {list.name}

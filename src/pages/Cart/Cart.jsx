@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "../../components/Cart/CartItem";
 import { addProduct, clearItems, minusItem, removeProduct, selectCart } from "../../redux/slices/cartSlice";
-import NotFoundBlock from "../NotFound/NotFound";
+import NotFound from "../NotFound/NotFound";
 
 const Cart = () => {
   const dispath = useDispatch();
@@ -164,7 +164,7 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <NotFoundBlock 
+        <NotFound 
         h1Text='Корзина пустая'
         pText1='Вероятней всего, вы не заказывали ещё пиццу.'
         pText2=' Для того, чтобы заказать пиццу, перейди на главную страницу.'

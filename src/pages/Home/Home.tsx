@@ -10,17 +10,16 @@ import Pizza from "../../components/PizzaBlock/Pizza";
 import Sort from "../../components/Sort/Sort";
 import { selectFilter, setPaginationPage, setUrlFilters } from "../../redux/slices/filterSlice";
 import { fetchPizzas } from "../../redux/slices/pizzaSlice";
-import NotFoundBlock from "../NotFound/NotFound";
+import { RootState } from "../../redux/store";
+import NotFound from "../NotFound/NotFound";
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-
- const {searchValue} = useSelector(selectFilter)
-
+  const { searchValue } = useSelector(selectFilter);
   const { categoryIndex, sort, paginationNumber } = useSelector(selectFilter);
-  const { items, status } = useSelector((state) => state.pizzaSlice);
+  const { items, status } = useSelector((state: RootState) => state.pizzaSlice);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,13 +51,16 @@ const Home = () => {
     const pagePagination = categoryIndex !== 0 || searchValue ? 1 : paginationNumber;
 
     if (!isSearch.current) {
-      dispatch(fetchPizzas({ IndexCategory, sortNameRep, sortType, search, pagePagination }));
+      dispatch(
+        //@ts-ignore
+        fetchPizzas({ IndexCategory, sortNameRep, sortType, search, pagePagination })
+      );
     }
     window.scrollTo(0, 0);
     isSearch.current = false;
   }, [categoryIndex, sort, searchValue, paginationNumber]);
 
-  const onChangePage = (number) => {
+  const onChangePage = (number: number) => {
     dispatch(setPaginationPage(number));
   };
 
@@ -69,18 +71,19 @@ const Home = () => {
         <Sort />
       </div>
       {status === "error" ? (
-        <NotFoundBlock
-        h1Text='Пиццы временно пропали'
-        pText1='Вероятней всего скоро они появится.'
-        buttonText='Вернуться назад'
-         />
+        <NotFound
+          pText2="Попробуйте пезезрагрузить страницу или подождать"
+          h1Text="Пиццы временно пропали"
+          pText1="Вероятней всего скоро они появится."
+          buttonText="Вернуться назад"
+        />
       ) : (
         <>
           <Pizza pizza={items} status={status} />
           <Pagination
             paginationNumber={paginationNumber}
             categoryIndex={categoryIndex}
-            onChangePage={(number) => onChangePage(number)}
+            onChangePage={(number: number) => onChangePage(number)}
           />
         </>
       )}

@@ -3,8 +3,12 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-const FullPizza = () => {
-  const [pizza, setPizza] = useState();
+const FullPizza: React.FC = () => {
+  const [pizza, setPizza] = useState<{
+    imageUrl: string,
+    title: string,
+    price: number
+  }>();
   const { id } = useParams();
 
   useEffect(() => {
@@ -21,10 +25,10 @@ const FullPizza = () => {
   }, [id]);
 
   if (!pizza) {
-    return "Загрузка...";
+    return <div>"Загрузка..."</div>;
   }
 
-  return (
+  return (  
     <div>
       <img src={pizza.imageUrl} alt="pizza" />
       <h2>{pizza.title}</h2>

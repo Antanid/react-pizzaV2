@@ -1,6 +1,12 @@
 import React from "react";
 
-const PizzaAdd = ({ price, onClickAdd, pizzaCount }) => {
+type PizzaAddType = {
+  price: number;
+  onClickAdd: any;
+  pizzaCount: {count: number};
+};
+
+const PizzaAdd: React.FC<PizzaAddType> = ({ price, onClickAdd, pizzaCount }) => {
   return (
     <div className="pizza-block__bottom">
       <div className="pizza-block__price">от {price}грн</div>

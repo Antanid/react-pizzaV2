@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectFilter, setSortIndex, setSortName } from "../../redux/slices/filterSlice";
 import SortInfo from "./SortInfo";
 
-export default function Sort() {
-  const [sortList] = useState([
+const Sort : React.FC = () => {
+
+  type sortItem = {name: string, sort: string};
+  const [sortList] = useState<sortItem[]>([
     { name: "цене (убыв.)", sort: "-price" },
     { name: "цене (возр.)", sort: "price" },
     { name: "популярности (возр.)", sort: "rating" },
@@ -17,10 +19,11 @@ export default function Sort() {
   const [open, setOpen] = useState(true);
   const {sort} = useSelector(selectFilter);
   const dispatch = useDispatch();
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
 
-  const onSortChange = (index, name) => {
-    dispatch(setSortIndex(index), dispatch(setSortName(name.sort)));
+  const onSortChange = (index: number, name: string) => {
+    dispatch(setSortIndex(index));
+    dispatch(dispatch(setSortName(name)))
   };
 
   useEffect(() => {
@@ -29,12 +32,13 @@ export default function Sort() {
 
   const selectedList = sortList[sort.sortIndex].name;
 
+
   const openPopUp = () => {
     return setOpen(!open);
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       const path = event.composedPath().includes(sortRef.current);
       if (!path) {
         setOpen(false);
@@ -47,7 +51,7 @@ export default function Sort() {
   return (
     <SortInfo
       sortRef={sortRef}
-      onSortChange={(index, name) => onSortChange(index, name)}
+      onSortChange={(index: number, name: string) => onSortChange(index, name)}
       selectedList={selectedList}
       sortIndex={sort.sortIndex}
       sortList={sortList}
@@ -56,3 +60,5 @@ export default function Sort() {
     />
   );
 }
+
+export default Sort;
