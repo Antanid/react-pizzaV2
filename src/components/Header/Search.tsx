@@ -1,6 +1,13 @@
 import style from "./sass/style.module.scss";
 
-const Search = ({ inputLocal, onSearchChange, onClearSearch, inputRef }) => {
+type searchTypes = {
+  inputLocal: string;
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClearSearch: () => void;
+  inputRef: React.RefObject<HTMLInputElement> ;
+}
+
+const Search: React.FC <searchTypes> = ({ inputLocal, onSearchChange, onClearSearch, inputRef }) => {
   return (
     <div className={style.root}>
       <svg

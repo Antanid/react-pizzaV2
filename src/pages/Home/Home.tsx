@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import qs from "qs";
 import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import Categories from "../../components/Categories/Categories";
 import Pagination from "../../components/Pagination/Pagination";
 import Pizza from "../../components/PizzaBlock/Pizza";
 import Sort from "../../components/Sort/Sort";
-import { selectFilter, setPaginationPage, setUrlFilters } from "../../redux/slices/filterSlice";
+import { filterTypeState, selectFilter, setPaginationPage, setUrlFilters, SortTypeState } from "../../redux/slices/filterSlice";
 import { fetchPizzas } from "../../redux/slices/pizzaSlice";
-import { RootState } from "../../redux/store";
+import { RootState, useAppDispatch } from "../../redux/store";
 import NotFound from "../NotFound/NotFound";
 
 const Home: React.FC = () => {
@@ -20,7 +20,7 @@ const Home: React.FC = () => {
   const { searchValue } = useSelector(selectFilter);
   const { categoryIndex, sort, paginationNumber } = useSelector(selectFilter);
   const { items, status } = useSelector((state: RootState) => state.pizzaSlice);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (isMounted.current) {
@@ -37,7 +37,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = (qs.parse(window.location.search.substring(1))as unknown) as SortTypeState & filterTypeState;
       dispatch(setUrlFilters(params));
       isSearch.current = true;
     }
@@ -52,7 +52,6 @@ const Home: React.FC = () => {
 
     if (!isSearch.current) {
       dispatch(
-        //@ts-ignore
         fetchPizzas({ IndexCategory, sortNameRep, sortType, search, pagePagination })
       );
     }
@@ -60,8 +59,8 @@ const Home: React.FC = () => {
     isSearch.current = false;
   }, [categoryIndex, sort, searchValue, paginationNumber]);
 
-  const onChangePage = (number: number) => {
-    dispatch(setPaginationPage(number));
+  const onChangePage = (page: number) => {
+    dispatch(setPaginationPage(page));
   };
 
   return (
@@ -83,7 +82,7 @@ const Home: React.FC = () => {
           <Pagination
             paginationNumber={paginationNumber}
             categoryIndex={categoryIndex}
-            onChangePage={(number: number) => onChangePage(number)}
+            onChangePage={(page: number) => onChangePage(page)}
           />
         </>
       )}

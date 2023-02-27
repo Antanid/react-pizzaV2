@@ -1,13 +1,14 @@
 import React from "react";
+import { SortTypeState } from "../../redux/slices/filterSlice";
 
 type SortInfoRType= {
   open: boolean;
-  openPopUp: any;
+  openPopUp: () => void;
   sortList: {name: string, sort: string}[];
   sortIndex: number;
   selectedList: string;
-  onSortChange: any;
-  sortRef: any;
+  onSortChange: (index: number, name: string) => void;
+  sortRef: React.RefObject<HTMLDivElement>;
 };
 
 const SortInfo: React.FC <SortInfoRType> = 

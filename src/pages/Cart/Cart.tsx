@@ -1,28 +1,36 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "../../components/Cart/CartItem";
-import { addProduct, clearItems, minusItem, removeProduct, selectCart } from "../../redux/slices/cartSlice";
+import {
+  addProduct,
+  clearItems,
+  minusItem,
+  removeProduct,
+  selectCart,
+} from "../../redux/slices/cartSlice";
 import NotFound from "../NotFound/NotFound";
 
-const Cart = () => {
+const Cart: React.FC = () => {
   const dispath = useDispatch();
   const { items, totalPrice } = useSelector(selectCart);
 
-  const totalCount = items.reduce((sum, obj) => sum + obj.count, 0);
+  console.log(items);
 
-  const onClickPlus = (id) => {
+  const totalCount = items.reduce((sum: number, obj: { count: number }) => sum + obj.count, 0);
+
+  const onClickPlus = (id: string) => {
     dispath(
       addProduct({
         id,
-      })
+      } as cartItemType)
     );
   };
 
-  const onClickMinus = (id) => {
+  const onClickMinus = (id: string) => {
     dispath(minusItem(id));
   };
 
-  const onClickRemove = (id) => {
+  const onClickRemove = (id: string) => {
     if (window.confirm("Вы уверены что хотите удалить пиццу? ")) {
       dispath(removeProduct(id));
     }
@@ -33,7 +41,15 @@ const Cart = () => {
       dispath(clearItems());
     }
   };
-
+  type cartItemType = {
+    count: number;
+    id: string;
+    imageUrl: string;
+    price: number;
+    sizes: number;
+    title: string;
+    types: string;
+  };
   return (
     <>
       {items.length > 0 ? (
@@ -115,13 +131,12 @@ const Cart = () => {
             </div>
 
             <div className="content__cartItems">
-              {items.map((item) => (
+              {items.map((item: cartItemType) => (
                 <CartItem
-                  onClickRemove={(id) => onClickRemove(id)}
-                  onClickMinus={(id) => onClickMinus(id)}
-                  onClickPlus={(id) => onClickPlus(id)}
+                  onClickRemove={(id: string) => onClickRemove(id)}
+                  onClickMinus={(id: string) => onClickMinus(id)}
+                  onClickPlus={(id: string) => onClickPlus(id)}
                   key={item.id}
-                  id={item.id}
                   {...item}
                 />
               ))}
@@ -164,11 +179,11 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <NotFound 
-        h1Text='Корзина пустая'
-        pText1='Вероятней всего, вы не заказывали ещё пиццу.'
-        pText2=' Для того, чтобы заказать пиццу, перейди на главную страницу.'
-        buttonText='Вернуться назад'
+        <NotFound
+          h1Text="Корзина пустая"
+          pText1="Вероятней всего, вы не заказывали ещё пиццу."
+          pText2=" Для того, чтобы заказать пиццу, перейди на главную страницу."
+          buttonText="Вернуться назад"
         />
       )}
     </>

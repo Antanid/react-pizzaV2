@@ -2,7 +2,7 @@ import React from "react";
 
 type SizePizzaType = {
   activeSyze: number;
-  onSyzeActive: any;
+  onSyzeActive: (index: number) => void;
   sizes: number[]
 }
 

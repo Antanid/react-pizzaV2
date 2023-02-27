@@ -2,7 +2,7 @@
  type PizzaType = {
   types: number[];
   activeType: number;
-  onTypeActive: any;
+  onTypeActive: (index : number) => void;
   typesName: string[]
  };
  

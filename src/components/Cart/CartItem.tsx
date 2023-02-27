@@ -1,23 +1,46 @@
 import React from "react";
 
-const CartItem = ({imageUrl, title, types, sizes, count, price, id, onClickPlus, onClickMinus, onClickRemove}) => {
+type CartItemType = {
+  count: number;
+  id: string;
+  imageUrl: string;
+  price: number;
+  sizes: number;
+  title: string;
+  types: string;
+  onClickPlus: (id: string) => void;
+  onClickMinus: (id: string) => void;
+  onClickRemove: (id: string) => void;
+};
+
+const CartItem: React.FC <CartItemType> = ({
+  imageUrl,
+  title,
+  types,
+  sizes,
+  count,
+  price,
+  id,
+  onClickPlus,
+  onClickMinus,
+  onClickRemove,
+}) => {
   return (
     <div className="cart__item">
       <div className="cart__item-img">
-        <img
-          className="pizza-block__image"
-          src={imageUrl}
-          alt="Pizza"
-        />
+        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>
-        <p>{types} тесто, {sizes} см.</p>
+        <p>
+          {types} тесто, {sizes} см.
+        </p>
       </div>
       <div className="cart__item-count">
         <div
-        onClick={() => onClickMinus(id)}
-         className="button button--outline button--circle cart__item-count-minus">
+          onClick={() => onClickMinus(id)}
+          className="button button--outline button--circle cart__item-count-minus"
+        >
           <svg
             width="10"
             height="10"
@@ -37,8 +60,9 @@ const CartItem = ({imageUrl, title, types, sizes, count, price, id, onClickPlus,
         </div>
         <b>{count}</b>
         <div
-        onClick={() => onClickPlus(id)}
-         className="button button--outline button--circle cart__item-count-plus">
+          onClick={() => onClickPlus(id)}
+          className="button button--outline button--circle cart__item-count-plus"
+        >
           <svg
             width="10"
             height="10"
@@ -61,7 +85,7 @@ const CartItem = ({imageUrl, title, types, sizes, count, price, id, onClickPlus,
         <b>{price * count} грн.</b>
       </div>
       <div onClick={() => onClickRemove(id)} className="cart__item-remove">
-        <div class="button button--outline button--circle">
+        <div className="button button--outline button--circle">
           <svg
             width="10"
             height="10"

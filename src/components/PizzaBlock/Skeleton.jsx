@@ -20,4 +20,3 @@ const Skeleton = (props) => (
 )
 
 export default Skeleton;
-

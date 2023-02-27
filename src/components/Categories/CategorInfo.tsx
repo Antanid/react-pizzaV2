@@ -3,7 +3,7 @@ import React from "react";
 type CategoriesProps = {
   liText: string[];
   categoryIndex: number;
-  onChangeCategory: any
+  onChangeCategory: (index: number) => void;
 }
 
 const CategorInfo: React.FC <CategoriesProps> = React.memo(
