@@ -1,5 +1,4 @@
 import React from "react";
-import { SortTypeState } from "../../redux/slices/filterSlice";
 
 type SortInfoRType= {
   open: boolean;
@@ -11,7 +10,7 @@ type SortInfoRType= {
   sortRef: React.RefObject<HTMLDivElement>;
 };
 
-const SortInfo: React.FC <SortInfoRType> = 
+const SortInfo: React.FC <SortInfoRType> = React.memo(
 ({ open, openPopUp, sortList, sortIndex, selectedList, onSortChange, sortRef}) => {
   return (
     <div ref={sortRef} className="sort">
@@ -48,6 +47,6 @@ const SortInfo: React.FC <SortInfoRType> =
       )}
     </div>
   );
-};
+});
 
 export default SortInfo;

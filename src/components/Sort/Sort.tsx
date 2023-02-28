@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectFilter, setSortIndex, setSortName, SortTypeState } from "../../redux/slices/filterSlice";
+import { selectFilter } from "../../redux/filter/selector";
+import { setSortIndex, setSortName } from "../../redux/filter/slice";
 import SortInfo from "./SortInfo";
 
-const Sort: React.FC = () => {
+const Sort: React.FC = React.memo( ()=> {
   type sortItem = { name: string; sort: string };
   const [sortList] = useState<sortItem[]>([
     { name: "цене (убыв.)", sort: "-price" },
@@ -14,16 +15,15 @@ const Sort: React.FC = () => {
     { name: "популярности (убыв.)", sort: "-rating" },
     { name: "алфавиту", sort: "title" },
   ]);
-
   const [open, setOpen] = useState(true);
   const { sort } = useSelector(selectFilter);
   const dispatch = useDispatch();
   const sortRef = useRef<HTMLDivElement>(null);
 
-  const onSortChange = (index: number, name: string) => {
+  const onSortChange = useCallback((index: number, name: string) => {
     dispatch(setSortIndex(index));
     dispatch(dispatch(setSortName(name)));
-  };
+  }, []);
 
   useEffect(() => {
     setOpen(!open);
@@ -49,7 +49,7 @@ const Sort: React.FC = () => {
   return (
     <SortInfo
       sortRef={sortRef}
-      onSortChange={(index: number, name:  string) => onSortChange(index, name)}
+      onSortChange={onSortChange}
       selectedList={selectedList}
       sortIndex={sort.sortIndex}
       sortList={sortList}
@@ -57,6 +57,6 @@ const Sort: React.FC = () => {
       open={open}
     />
   );
-};
+});
 
 export default Sort;

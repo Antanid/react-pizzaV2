@@ -27,8 +27,8 @@ body {
     margin: 35px 0;
   }
 
- .content__cartBlock{
-display: block;
+  .content__cartBlock {
+    display: block;
   }
 
   &__items {
@@ -218,6 +218,10 @@ display: block;
           path:first-of-type {
             display: none;
           }
+        }
+        &--disabled {
+          opacity: 0.3;
+          pointer-events: none;
         }
       }
 

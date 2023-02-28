@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addProduct, selectCartItemById } from "../../redux/slices/cartSlice";
-import { CartItemType } from "../../redux/slices/cartSlice";
+import { addProduct } from "../../redux/cart/slice";
+import {selectCartItemById} from "../../redux/cart/selectors";
+import { CartItemType } from "../../redux/cart/types";
 import { RootState } from "../../redux/store";
 
 import PizzaAdd from "./PizzaAdd";

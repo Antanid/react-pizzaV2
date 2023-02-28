@@ -1,15 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import logoImg from "../../assets/img/pizza-logo.svg";
 import Search from "./Search";
 import debounce from "lodash.debounce";
-import { selectCart } from "../../redux/slices/cartSlice";
-import { setSearchValue } from "../../redux/slices/filterSlice";
+import { selectCart } from "../../redux/cart/selectors";
+import { setSearchValue } from "../../redux/filter/slice";
+
 
 const Header: React.FC = () => {
+  const isMounted = useRef(false);
   const dispatch = useDispatch();
 
   const [inputLocal, setInputLocal] = useState("");
@@ -17,6 +19,15 @@ const Header: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { items, totalPrice } = useSelector(selectCart);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem("cart", json);
+    }
+    console.log('2')
+    isMounted.current = true;
+  }, [items]);
 
   const location = useLocation();
 
@@ -53,12 +64,14 @@ const Header: React.FC = () => {
             </div>
           </div>
         </Link>
-        <Search
-          inputRef={inputRef}
-          onClearSearch={onClearSearch}
-          onSearchChange={onSearchChange}
-          inputLocal={inputLocal}
-        />
+        {location.pathname !== "/cart" && (
+          <Search
+            inputRef={inputRef}
+            onClearSearch={onClearSearch}
+            onSearchChange={onSearchChange}
+            inputLocal={inputLocal}
+          />
+        )}
         {location.pathname !== "/cart" ? (
           <Link to="/cart">
             <div className="header__cart">

@@ -1,23 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "../../components/Cart/CartItem";
+import { selectCart } from "../../redux/cart/selectors";
 import {
   addProduct,
   clearItems,
   minusItem,
   removeProduct,
-  selectCart,
-} from "../../redux/slices/cartSlice";
+} from "../../redux/cart/slice";
 import NotFound from "../NotFound/NotFound";
 
 const Cart: React.FC = () => {
   const dispath = useDispatch();
   const { items, totalPrice } = useSelector(selectCart);
 
-  console.log(items);
-
   const totalCount = items.reduce((sum: number, obj: { count: number }) => sum + obj.count, 0);
-
   const onClickPlus = (id: string) => {
     dispath(
       addProduct({

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 
 type CartItemType = {
@@ -13,7 +14,7 @@ type CartItemType = {
   onClickRemove: (id: string) => void;
 };
 
-const CartItem: React.FC <CartItemType> = ({
+const CartItem: React.FC<CartItemType> = ({
   imageUrl,
   title,
   types,
@@ -37,9 +38,9 @@ const CartItem: React.FC <CartItemType> = ({
         </p>
       </div>
       <div className="cart__item-count">
-        <div
+        <button
           onClick={() => onClickMinus(id)}
-          className="button button--outline button--circle cart__item-count-minus"
+          className={clsx("button button--outline button--circle cart__item-count-minus", {'cart__item-count-minus--disabled' : count === 1})}
         >
           <svg
             width="10"
@@ -57,9 +58,9 @@ const CartItem: React.FC <CartItemType> = ({
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
         <b>{count}</b>
-        <div
+        <button
           onClick={() => onClickPlus(id)}
           className="button button--outline button--circle cart__item-count-plus"
         >
@@ -79,7 +80,7 @@ const CartItem: React.FC <CartItemType> = ({
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
       <div className="cart__item-price">
         <b>{price * count} грн.</b>
