@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Params, useParams } from "react-router-dom";
 import { RootState } from "../../redux/store";
 
 import style from "./style/style.module.scss";
@@ -16,11 +16,10 @@ import PizzaTypeSolo from "./PizzaTypeSolo";
 import SizePizzaSolo from "./SizePizzaSolo";
 import PizzaAddSolo from "./PizzaAddSolo";
 
-
 const FullPizza: React.FC = () => {
   const [typesName] = useState<string[]>(["Тонкое", "Традиционное"]);
   const [activeType, setActiveType] = useState<number>(0);
-  const [activeSyze, setActiveSyze]= useState<number> (0);
+  const [activeSyze, setActiveSyze] = useState<number>(0);
 
   const [pizza, setPizza] = useState<{
     imageUrl: string;
@@ -28,11 +27,11 @@ const FullPizza: React.FC = () => {
     price: number;
     types: number[];
     sizes: number[];
-    id: string
+    id: string;
   }>();
 
+  const { id }: Readonly<Params<string>> = useParams();
   const dispath = useDispatch();
-  const { id } = useParams();
 
   useEffect(() => {
     const pizzaData = async () => {
@@ -45,11 +44,12 @@ const FullPizza: React.FC = () => {
     };
     pizzaData();
   }, [id]);
-  const addPizzaId = pizza ? pizza.id : '';
+
+  const addPizzaId = pizza ? pizza.id : "";
   const pizzaCount = useSelector((state: RootState) => selectCartItemById(state, addPizzaId));
 
   const onClickAdd = () => {
-    if(pizza){
+    if (pizza) {
       const { id, title, imageUrl, price, sizes } = pizza;
       const item: CartItemType = {
         id,
@@ -60,9 +60,8 @@ const FullPizza: React.FC = () => {
         sizes: sizes[activeSyze],
         count: 0,
       };
-      dispath(addProduct(item))
+      dispath(addProduct(item));
     }
-    ;
   };
 
   const onTypeActive = (index: number) => {
@@ -76,7 +75,6 @@ const FullPizza: React.FC = () => {
   if (!pizza) {
     return <Skeleton />;
   }
-  console.log(pizza.id);
 
   return (
     <div className={style.pizza}>

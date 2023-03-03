@@ -25,7 +25,6 @@ const Header: React.FC = () => {
       const json = JSON.stringify(items);
       localStorage.setItem("cart", json);
     }
-    console.log('2')
     isMounted.current = true;
   }, [items]);
 
